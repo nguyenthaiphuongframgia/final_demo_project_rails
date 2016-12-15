@@ -1,0 +1,26 @@
+<ul id="show_comments-<%= entry.id %>" class = "comments">
+    <%if (entry.comments.any?)%>
+      <%= render entry.comments %>
+    <%end%>
+</ul>
+
+<% if (logged_in?)%>
+<% if (current_user.following?(entry.user) || current_user?(entry.user))%>
+<div class="form_comment">
+    <%= form_for(entry.comments.build, html: { multipart: true },
+                                           remote: true) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+      <div>
+        <%= link_to gravatar_for(current_user, size: 50), current_user %>
+      </div>
+      <div class="field option">
+        <%= f.text_area :content, placeholder: "Compose new comment...",
+            id: "comment_content_field-#{entry.id}"
+        %>
+      </div>
+      <div><%= hidden_field_tag :entry_id, entry.id %></div>
+      <%= f.submit "Post", class: "btn btn-primary" %>
+    <% end %>
+<% end %>
+<%end%>
+</div>

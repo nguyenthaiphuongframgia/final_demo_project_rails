@@ -1,0 +1,11 @@
+<%= form_for(@entry, html: { multipart: true },
+						 remote: true) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+	<!-- <div class="field">
+    <%= f.text_field :title, placeholder: "Compose new entries..." %>
+  </div> -->
+  <div class="field">
+    <%= f.text_area :body, placeholder: "Compose new entries..." %>
+  </div>
+  <%= f.submit "Edit", class: "btn btn-primary" %>
+<% end %>

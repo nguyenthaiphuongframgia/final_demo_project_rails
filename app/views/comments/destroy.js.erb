@@ -1,0 +1,2 @@
+$("#show_comments-<%= @entry.id %>").html("<%= escape_javascript(render(@entry.comments)) %>");
+$("#comments_count-<%= @entry.id %>").html('<%= link_to "#{@entry.comments.count} comments ||", @entry, remote: true%>');
