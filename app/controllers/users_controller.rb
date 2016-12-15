@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
-                                        :following, :followers]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy
+                                        ]
   #before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
   before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: :destroy
@@ -44,6 +44,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+
     if @user.update_attributes(user_params)
       # Handle a successful update.
       flash[:success] = "Profile updated"
@@ -72,6 +73,20 @@ class UsersController < ApplicationController
   # def admin_user
   #     redirect_to(root_url) unless current_user.admin?
   # end
+  # Follows a user.
+  def follow(other_user)
+    active_relationships.create(followed_id: other_user.id)
+  end
+
+  # Unfollows a user.
+  def unfollow(other_user)
+    active_relationships.find_by(followed_id: other_user.id).destroy
+  end
+
+  def following?(other_user)
+    following.include?(other_user)
+  end
+
   def following
    @title = "Following"
    @user  = User.find(params[:id])
